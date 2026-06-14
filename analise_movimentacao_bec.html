@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análise Comparativa de Movimentação — 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1116; --panel:#161B22; --panel2:#1B222E; --line:rgba(255,255,255,.08);
+    --gold:#CBA35C;
+    --tx:#E9EBEF; --tx2:#9AA1AC; --tx3:#6E757F;
+    --good:#56AE81; --good-bg:rgba(86,174,129,.14);
+    --mid:#C9963F;  --mid-bg:rgba(201,150,63,.14);
+    --bad:#C75F56;  --bad-bg:rgba(199,95,86,.14);
+    --rb:#5B8FB0; --pv:#9C7BC2; --pc:#C98A4B;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  h1,h2,h3,h4{margin:0;font-weight:400}
+  .display{font-family:'Bebas Neue',sans-serif;letter-spacing:.02em;line-height:.95}
+
+  header{border-bottom:1px solid var(--line);padding:50px 0 36px;background:
+    radial-gradient(900px 320px at 82% -50%, rgba(203,163,92,.08), transparent 60%);}
+  .eyebrow{font-family:'Oswald',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.34em;font-size:11.5px;color:var(--gold)}
+  h1.display{font-size:clamp(40px,6.4vw,68px);margin:12px 0 6px}
+  .route{font-family:'Oswald',sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.2em;font-size:13px;color:var(--tx2);margin-bottom:14px}
+  .sub{color:var(--tx2);font-size:14.5px;max-width:660px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:18px;font-size:13px;color:var(--tx3)}
+  .meta b{color:var(--tx2);font-weight:500}
+
+  .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:30px 0 4px}
+  .opt{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;position:relative;overflow:hidden}
+  .opt::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+  .opt.rb::before{background:var(--rb)} .opt.pv::before{background:var(--pv)} .opt.pc::before{background:var(--pc)}
+  .opt .bec{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.02em}
+  .opt .city{font-family:'Oswald',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.12em;font-size:13px;color:var(--tx2)}
+  .opt .pkg{margin-top:8px;font-size:12px;color:var(--tx3)}
+  .opt .pkg b{font-family:'Oswald',sans-serif;color:var(--gold);font-weight:600;font-size:15px}
+
+  section{padding:42px 0}
+  .sec-h{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:12px}
+  .sec-h .n{font-family:'Bebas Neue',sans-serif;color:var(--gold);font-size:26px;line-height:1}
+  .sec-h h2{font-family:'Oswald',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.18em;font-size:16px}
+
+  .prio{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .pr{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .pr .pn{font-family:'Oswald',sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.16em;font-size:11px;color:var(--gold)}
+  .pr .pt{font-family:'Bebas Neue',sans-serif;font-size:23px;letter-spacing:.02em;margin-top:2px}
+  .pr .pd{color:var(--tx3);font-size:12px;margin-top:3px}
+
+  .dossier{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin-bottom:22px;overflow:hidden}
+  .dh{display:flex;align-items:center;gap:16px;padding:20px 24px;border-bottom:1px solid var(--line)}
+  .tag{font-family:'Bebas Neue',sans-serif;font-size:40px;width:62px;height:62px;display:flex;align-items:center;justify-content:center;border-radius:12px;flex:none}
+  .tag.rb{background:rgba(91,143,176,.16);color:#8FBEDC} .tag.pv{background:rgba(156,123,194,.16);color:#C0A6E0} .tag.pc{background:rgba(201,138,75,.16);color:#E2AE74}
+  .dh h3{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:.02em}
+  .dh .deno{font-family:'Oswald',sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.13em;font-size:12px;color:var(--tx2)}
+
+  .dbody{padding:18px 24px 22px;column-gap:36px}
+  .bgrp{margin-top:16px;break-inside:avoid}
+  .bgrp:first-child{margin-top:0}
+  .bgrp .lbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.13em;font-size:11px;color:var(--gold);margin-bottom:7px}
+  .blist{list-style:none;margin:0;padding:0}
+  .blist li{position:relative;padding-left:18px;font-size:14px;color:var(--tx);margin:6px 0;line-height:1.55}
+  .blist li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;border-radius:1px;background:var(--gold);opacity:.75}
+  .blist li .em{color:var(--tx2)}
+  @media(min-width:840px){ .dbody{column-count:2} }
+
+  .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+  table{border-collapse:collapse;width:100%;min-width:700px;font-size:13.5px}
+  thead th{background:var(--panel2);text-align:left;padding:14px 16px;font-family:'Oswald',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+  thead th.crit{color:var(--tx2)}
+  thead th .bc{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.02em;display:block;line-height:1}
+  thead th.rb .bc{color:#8FBEDC} thead th.pv .bc{color:#C0A6E0} thead th.pc .bc{color:#E2AE74}
+  thead th .ct{font-weight:300;color:var(--tx3);font-size:11px;letter-spacing:.1em}
+  tbody td{padding:11px 16px;border-top:1px solid var(--line);vertical-align:top}
+  tbody td.crit{color:var(--tx2);font-weight:500;background:var(--panel)}
+  .grp td{background:var(--panel2);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--gold);padding:8px 16px;border-top:1px solid var(--line)}
+  .r{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .g .dot{background:var(--good)} .m .dot{background:var(--mid)} .b .dot{background:var(--bad)} .n .dot{background:var(--tx3)}
+  td.g{background:var(--good-bg)} td.m{background:var(--mid-bg)} td.b{background:var(--bad-bg)}
+
+  .syn{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .sc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;border-top:3px solid}
+  .sc.rb{border-top-color:var(--rb)} .sc.pv{border-top-color:var(--pv)} .sc.pc{border-top-color:var(--pc)}
+  .sc h4{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.02em;margin-bottom:2px}
+  .sc .tl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:11px;color:var(--tx3);margin-bottom:13px}
+  .sc .row{display:flex;gap:8px;font-size:13px;margin-bottom:8px}
+  .sc .row .ic{flex:none;width:14px;font-weight:600;text-align:center}
+  .sc .row.pro .ic{color:var(--good)} .sc .row.con .ic{color:var(--bad)}
+  .sc .row span{color:var(--tx2)}
+
+  .note{margin-top:26px;padding:18px 20px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 10px 10px 0}
+  .note .nt{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--gold);margin-bottom:6px}
+  .note ul{margin:0;padding-left:18px;color:var(--tx2);font-size:12.5px}
+  .note li{margin:4px 0}
+
+  footer{border-top:1px solid var(--line);padding:24px 0 50px;color:var(--tx3);font-size:11.5px}
+
+  @media(max-width:760px){ .opts,.prio,.syn{grid-template-columns:1fr} .prio{grid-template-columns:1fr 1fr} }
+  @media(prefers-reduced-motion:no-preference){
+    .dossier,.opt,.pr,.sc{animation:rise .5s both}
+    @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Relatório de Apoio à Decisão</div>
+    <h1 class="display">Análise Comparativa de Movimentação</h1>
+    <div class="route">3º BEC · 5º BEC · 7º BEC — Movimentação 2027</div>
+    <p class="sub">Confronto das três guarnições possíveis para 2027, avaliadas por fatores pessoais, financeiros, de carreira e de qualidade de vida.</p>
+    <div class="meta">
+      <span><b>Origem:</b> Rio de Janeiro / RJ</span>
+      <span><b>Perfil:</b> Engenheiro · QEM</span>
+      <span><b>Posto:</b> Capitão</span>
+    </div>
+
+    <div class="opts">
+      <div class="opt pc"><div class="bec">3º BEC</div><div class="city">Picos · PI</div><div class="pkg">Pacote de mudança <b>R$ 49.974</b> · 2.238 km</div></div>
+      <div class="opt pv"><div class="bec">5º BEC</div><div class="city">Porto Velho · RO</div><div class="pkg">Pacote de mudança <b>R$ 92.074</b> · 3.444 km</div></div>
+      <div class="opt rb"><div class="bec">7º BEC</div><div class="city">Rio Branco · AC</div><div class="pkg">Pacote de mudança <b>R$ 94.356</b> · 3.949 km</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">00</span><h2>Critérios de avaliação</h2></div>
+    <div class="prio">
+      <div class="pr"><div class="pn">Prioridade 1</div><div class="pt">Vida pessoal e família</div><div class="pd">Mercado local, escola, moradia e permanência</div></div>
+      <div class="pr"><div class="pn">Prioridade 2</div><div class="pt">Finanças</div><div class="pd">Custo de vida, pacote da mudança e adicionais</div></div>
+      <div class="pr"><div class="pn">Prioridade 3</div><div class="pt">Carreira</div><div class="pd">Experiência de obra e cenário 2027</div></div>
+      <div class="pr"><div class="pn">Prioridade 4</div><div class="pt">Qualidade de vida</div><div class="pd">Segurança, clima, IDH e serviços</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">01</span><h2>Análise por guarnição</h2></div>
+
+    <div class="dossier">
+      <div class="dh"><div class="tag rb">7</div><div><h3>7º BEC · Rio Branco / AC</h3><div class="deno">Batalhão Barão do Rio Branco · Amazônia Ocidental</div></div></div>
+      <div class="dbody">
+        <div class="bgrp"><div class="lbl">Carreira</div><ul class="blist">
+          <li>Função de engenheiro residente na obra de Santa Rosa do Purus, em andamento — a maior exposição técnica das três.</li>
+          <li>Trajetória estruturada: sede de janeiro a abril, Estágio de Gerenciamento de Obras em Araguari, destacamento e retorno como chefe da seção técnica.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Permanência e moradia</div><ul class="blist">
+          <li>Destacamento no verão amazônico, cerca de 6 meses (abril a outubro/novembro), com adicional de diária de 2% ao dia.</li>
+          <li>PNR de liberação rápida — ocupação em cerca de um mês. Aluguel de 2 quartos na faixa de <span class="em">R$ 1.000 a 1.500</span>.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Finanças</div><ul class="blist">
+          <li>Guarnição Especial: ajuda de custo de <span class="em">R$ 71.428</span> (base × 4) e adicional de guarnição de <span class="em">20% mensal</span>.</li>
+          <li>Pacote total de mudança: <span class="em">R$ 94.356</span>.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Cidade e qualidade de vida</div><ul class="blist">
+          <li>Capital com cerca de 389 mil habitantes — mercado consumidor de porte médio e rede de escolas particulares (mensalidade média ~R$ 907).</li>
+          <li>Acre entre os menos violentos do Norte; IDH 0,727; clima quente e úmido; acesso aéreo distante, com conexão.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="dossier">
+      <div class="dh"><div class="tag pv">5</div><div><h3>5º BEC · Porto Velho / RO</h3><div class="deno">Pioneiro da Engenharia do Exército na Amazônia</div></div></div>
+      <div class="dbody">
+        <div class="bgrp"><div class="lbl">Carreira</div><ul class="blist">
+          <li>Sem obra de cooperação no momento; previsão de início no fim do ano. Atuação inicial mais gerencial, na sede.</li>
+          <li>O planejamento mantém o capitão recém-chegado na guarnição, com QEM e OTT cobrindo o trecho; risco de equipe dispersa em apoio a outros batalhões.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Permanência e moradia</div><ul class="blist">
+          <li>Permanência na guarnição, sem destacamento — maior presença no dia a dia, porém sem o adicional de diária.</li>
+          <li>PNR com fila de cerca de <span class="em">1 ano</span>. Aluguel de 2 quartos em alta: <span class="em">R$ 1.200 a 2.000</span>, podendo chegar a R$ 2.500.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Finanças</div><ul class="blist">
+          <li>Guarnição Especial: ajuda de custo de <span class="em">R$ 71.428</span> (base × 4) e adicional de guarnição de <span class="em">20% mensal</span>.</li>
+          <li>Pacote total de mudança: <span class="em">R$ 92.074</span>.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Cidade e qualidade de vida</div><ul class="blist">
+          <li>Maior das três (~518 mil) — maior mercado consumidor e ampla rede escolar (~65 escolas, média ~R$ 870).</li>
+          <li>Melhor IDH (0,736), porém a maior taxa de violência entre os três estados; custo de vida em elevação acelerada.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="dossier">
+      <div class="dh"><div class="tag pc">3</div><div><h3>3º BEC · Picos / PI</h3><div class="deno">Batalhão Visconde da Parnaíba · Sertão semiárido</div></div></div>
+      <div class="dbody">
+        <div class="bgrp"><div class="lbl">Carreira</div><ul class="blist">
+          <li>Obras rodoviárias no Nordeste. Leitura de campo obtida com oficial combatente — falta a avaliação técnica sob a ótica do QEM.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Permanência e moradia</div><ul class="blist">
+          <li>Melhor padrão de moradia militar das três: PNR praticamente garantido (preferência para capitão, fila ~3 meses), residência ampla e vila com estrutura de lazer.</li>
+          <li>Aluguel de 2 quartos na faixa de <span class="em">R$ 500 a 800</span>.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Finanças</div><ul class="blist">
+          <li>Guarnição Comum: ajuda de custo de <span class="em">R$ 35.714</span> (base × 2) e adicional de guarnição de <span class="em">10% mensal</span>.</li>
+          <li>Menor custo de vida das três (média estadual ~R$ 2.690/mês; energia elevada, ~R$ 700). Pacote total de mudança: <span class="em">R$ 49.974</span>.</li>
+        </ul></div>
+        <div class="bgrp"><div class="lbl">Cidade e qualidade de vida</div><ul class="blist">
+          <li>Cidade média (~83 mil) — menor mercado consumidor; rede escolar enxuta (~17 escolas, a partir de ~R$ 199).</li>
+          <li>Boa segurança; calor extremo o ano todo; a mais isolada por via aérea (aeroporto via Teresina/Petrolina, ~4h30).</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">02</span><h2>Tabela de confronto</h2></div>
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr>
+            <th class="crit">Critério</th>
+            <th class="pc"><span class="bc">3º BEC</span><span class="ct">Picos</span></th>
+            <th class="pv"><span class="bc">5º BEC</span><span class="ct">Porto Velho</span></th>
+            <th class="rb"><span class="bc">7º BEC</span><span class="ct">Rio Branco</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="grp"><td colspan="4">Prioridade 1 · Vida pessoal e família</td></tr>
+          <tr><td class="crit">1 · Mercado consumidor local</td>
+            <td class="b"><span class="r b"><span class="dot"></span>Pequeno</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Grande</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Médio</span></td></tr>
+          <tr><td class="crit">2 · Escola / educação</td>
+            <td class="m"><span class="r m"><span class="dot"></span>Limitada · barata</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Ampla · média</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Boa · média</span></td></tr>
+          <tr><td class="crit">3 · Vida urbana e lazer</td>
+            <td class="b"><span class="r b"><span class="dot"></span>Limitada</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Boa</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Média</span></td></tr>
+          <tr><td class="crit">4 · Moradia (PNR + vila)</td>
+            <td class="g"><span class="r g"><span class="dot"></span>Excelente · fila ~3 m</span></td>
+            <td class="b"><span class="r b"><span class="dot"></span>PNR fila ~1 ano</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Boa · PNR rápido</span></td></tr>
+          <tr><td class="crit">5 · Aluguel 2 quartos (s/ PNR)</td>
+            <td class="g"><span class="r g"><span class="dot"></span>R$ 500–800</span></td>
+            <td class="b"><span class="r b"><span class="dot"></span>R$ 1.200–2.000</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>R$ 1.000–1.500</span></td></tr>
+          <tr><td class="crit">6 · Permanência / destacamento</td>
+            <td class="n"><span class="r n"><span class="dot"></span>Não definido</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Fica na guarnição</span></td>
+            <td class="b"><span class="r b"><span class="dot"></span>Destacado ~6 m (+diária)</span></td></tr>
+
+          <tr class="grp"><td colspan="4">Prioridade 2 · Finanças</td></tr>
+          <tr><td class="crit">7 · Custo de vida mensal</td>
+            <td class="g"><span class="r g"><span class="dot"></span>Baixo</span></td>
+            <td class="b"><span class="r b"><span class="dot"></span>Alto · subindo</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Médio</span></td></tr>
+          <tr><td class="crit">8 · Pacote da mudança</td>
+            <td class="b"><span class="r b"><span class="dot"></span>R$ 49.974</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>R$ 92.074</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>R$ 94.356</span></td></tr>
+          <tr><td class="crit">9 · Guarnição (mudança · adic. mensal)</td>
+            <td class="b"><span class="r b"><span class="dot"></span>Comum · ×2 · +10%</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Especial · ×4 · +20%</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Especial · ×4 · +20%</span></td></tr>
+
+          <tr class="grp"><td colspan="4">Prioridade 3 · Carreira</td></tr>
+          <tr><td class="crit">10 · Experiência de obra</td>
+            <td class="m"><span class="r m"><span class="dot"></span>A confirmar (QEM)</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Média · gerencial</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Alta · residente</span></td></tr>
+          <tr><td class="crit">11 · Cenário de obra 2027</td>
+            <td class="m"><span class="r m"><span class="dot"></span>Rodovias NE</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Obra começando</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Obra em andamento</span></td></tr>
+
+          <tr class="grp"><td colspan="4">Prioridade 4 · Qualidade de vida e segurança</td></tr>
+          <tr><td class="crit">12 · Segurança</td>
+            <td class="g"><span class="r g"><span class="dot"></span>Boa</span></td>
+            <td class="b"><span class="r b"><span class="dot"></span>A pior das três</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>Boa</span></td></tr>
+          <tr><td class="crit">13 · Clima</td>
+            <td class="b"><span class="r b"><span class="dot"></span>Calor extremo</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Quente · úmido</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Quente · úmido</span></td></tr>
+          <tr><td class="crit">14 · IDH e serviços</td>
+            <td class="m"><span class="r m"><span class="dot"></span>Menor (porte médio)</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>0,736 · melhor</span></td>
+            <td class="g"><span class="r g"><span class="dot"></span>0,727 · alto</span></td></tr>
+          <tr><td class="crit">15 · Isolamento / acesso aéreo</td>
+            <td class="b"><span class="r b"><span class="dot"></span>Mais isolada</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Médio</span></td>
+            <td class="m"><span class="r m"><span class="dot"></span>Médio</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">03</span><h2>Leitura final</h2></div>
+    <div class="syn">
+      <div class="sc pc">
+        <h4>3º BEC · Picos</h4>
+        <div class="tl">Menor custo · melhor moradia</div>
+        <div class="row pro"><span class="ic">+</span><span>Menor custo de vida e melhor padrão de moradia militar.</span></div>
+        <div class="row pro"><span class="ic">+</span><span>Boa segurança e menor distância terrestre do Rio de Janeiro.</span></div>
+        <div class="row con"><span class="ic">–</span><span>Menor mercado consumidor e cidade isolada por via aérea.</span></div>
+        <div class="row con"><span class="ic">–</span><span>Clima severo, menor pacote de mudança e adicional de 10%.</span></div>
+      </div>
+      <div class="sc pv">
+        <h4>5º BEC · Porto Velho</h4>
+        <div class="tl">Presença familiar · mercado</div>
+        <div class="row pro"><span class="ic">+</span><span>Maior mercado consumidor e permanência na guarnição.</span></div>
+        <div class="row pro"><span class="ic">+</span><span>Melhor IDH e adicional de guarnição de 20%.</span></div>
+        <div class="row con"><span class="ic">–</span><span>PNR com fila de cerca de 1 ano e custo de vida em alta.</span></div>
+        <div class="row con"><span class="ic">–</span><span>Pior segurança e experiência de obra limitada em 2027.</span></div>
+      </div>
+      <div class="sc rb">
+        <h4>7º BEC · Rio Branco</h4>
+        <div class="tl">Desenvolvimento profissional</div>
+        <div class="row pro"><span class="ic">+</span><span>Maior experiência técnica, com obra na função de residente.</span></div>
+        <div class="row pro"><span class="ic">+</span><span>Maior pacote de mudança, adicional de 20% e diária no trecho.</span></div>
+        <div class="row con"><span class="ic">–</span><span>Cerca de 6 meses por ano em destacamento remoto.</span></div>
+        <div class="row con"><span class="ic">–</span><span>Maior custo de deslocamento e distância da origem.</span></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <div class="nt">Ressalvas dos dados</div>
+      <ul>
+        <li>Adicional de guarnição mensal: 10% em Picos e 20% no Norte (Rio Branco e Porto Velho) — vantagem recorrente das amazônicas, parcialmente compensada pelo menor custo de vida de Picos.</li>
+        <li>Picos: a leitura de campo é de oficial combatente, não QEM — falta a avaliação técnica de obra do engenheiro.</li>
+        <li>Porto Velho: PNR com fila de cerca de 1 ano, em meio a aluguel em elevação acelerada.</li>
+        <li>Planejamento das seções (5º e 7º BEC) sujeito a alteração conforme dinâmica de obras e efetivo.</li>
+        <li>Faixas de aluguel e escola são referências de mercado (2025–2026); pacotes de mudança conforme as simulações apresentadas.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Relatório comparativo de movimentação · 3º BEC (Picos/PI) · 5º BEC (Porto Velho/RO) · 7º BEC (Rio Branco/AC).</div>
+</footer>
+
+</body>
+</html>
